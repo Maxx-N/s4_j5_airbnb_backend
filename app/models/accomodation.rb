@@ -1,12 +1,12 @@
 class Accomodation < ApplicationRecord
   validates :available_beds,
-    presence: true
+    presence: true,
     numericality: { greater_than: 0 }
   validates :price, presence: true
   validates :description,
-    presence: true
+    presence: true,
     length: { minimum: 140 }
-  validates :has_wifi, presence: true
+  validates_inclusion_of :has_wifi, in: [true, false]
   validates :welcome_message, presence: true
 
   belongs_to :city
