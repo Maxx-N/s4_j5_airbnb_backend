@@ -7,12 +7,12 @@
 
 # Créer 10 users
   10.times do |index|
-    u = User.new
-    u.id = index + 1
-    u.email = Faker::Internet.unique.email
-    u.phone_number = "06#{Faker::PhoneNumber.unique.extension}#{Faker::PhoneNumber.extension}"
-    u.description = "Bonjour, je m'appelle #{Faker::Name.name}, j'ai #{rand(18..60)} ans et je viens de #{Faker::Address.city}"
-    u.save
+    u = User.create(
+      id: index + 1,
+      email: Faker::Internet.unique.email,
+      phone_number: "06#{Faker::PhoneNumber.unique.extension}#{Faker::PhoneNumber.extension}",
+      description: "Bonjour, je m'appelle #{Faker::Name.name}, j'ai #{rand(18..60)} ans et je viens de #{Faker::Address.city}"
+    )
   end
 
 # Afficher les utilisateurs(trices) créé(e)s
@@ -38,16 +38,17 @@
 
 # Créer 100 logements
   100.times do |index|
-    a = Accomodation.new
-    a.id = index + 1
-    a.available_beds = rand(1..8)
-    a.price = rand(30..100)
-    a.description = Faker::Lorem.paragraph_by_chars(number: 145)
-    a.has_wifi = [true, false].sample
-    a.welcome_message = "Bonjour! Passez un bon séjour dans notre magnifique logement !"
-    a.city = City.all[rand(0..(City.all.length - 1))]
-    a.administrator = User.all[rand(0..(User.all.length - 1))]
-    a.save
+    a = Accomodation.create(
+    id: index + 1,
+    available_beds: rand(1..8),
+    price: rand(30..100),
+    description: Faker::Lorem.paragraph_by_chars(number: 145),
+    has_wifi: [true, false].sample,
+    welcome_message: "Bonjour! Passez un bon séjour dans notre magnifique logement !",
+    city: City.all[rand(0..(City.all.length - 1))],
+    administrator: User.all[rand(0..(User.all.length - 1))]
+    )
+  
   end
 
 # Afficher les logements créés
@@ -72,13 +73,13 @@
     
 # Créer 50 réservations
   50.times do |index|
-    r = Reservation.create(
-      id: index + 1,
-      start_date: Faker::Date.between(from: Date.today, to: 364.day.from_now),
-      end_date: Faker::Date.between(from: 1.day.from_now, to: 1.year.from_now),
-      accomodation: Accomodation.all[rand(0..(Accomodation.all.length - 1))],
-      guest: User.all[rand(0..(User.all.length - 1))]
-    )
+    r = Reservation.new
+    r.id = index + 1
+    r.start_date = Faker::Date.between(from: Date.today, to: 364.day.from_now)
+    r.end_date = Faker::Date.between(from: (r.start_date + 1.day), to: 365.day.from_now)
+    r.accomodation = Accomodation.all[rand(0..(Accomodation.all.length - 1))]
+    r.guest = User.all[rand(0..(User.all.length - 1))]
+    r.save
   end
 
 # Afficher les réservations
@@ -86,3 +87,6 @@
   puts "Voici les #{Reservation.all.length} réservations existantes :"
   puts "\n"
   tp Reservation.all, :id, :start_date, :end_date, :accomodation_id, :guest_id
+
+
+puts Reservation.all.length
