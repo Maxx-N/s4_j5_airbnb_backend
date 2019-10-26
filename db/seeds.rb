@@ -48,4 +48,14 @@
 
 # Afficher les logements créés
     puts "\n"
-    tp Accomodation.all, :id, :available_beds, :price, :has_wifi
+    tp Accomodation.all, :id, :available_beds, :price, :has_wifi, :administrator_id, :city_id
+
+# Prend un logement au hasard et affiche son nombre de places, sont prix, sa ville et l'email de son propriétaire
+  a = Accomodation.all.sample
+  puts "\n"
+  puts "L'utilisateur ayant l'email \"#{a.administrator.email}\" propose #{a.available_beds} couchages à #{a.price} € / nuit dans la ville de #{a.city.name}"
+
+    
+    
+
+  
