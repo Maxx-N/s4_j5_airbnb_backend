@@ -50,14 +50,14 @@
     a.save
   end
 
-# Afficher les logements créés :
+# Afficher les logements créés
     puts "\n"
     puts "Voici la liste des #{Accomodation.all.length} logements disponibles :"
     puts "\n"
     tp Accomodation.all, :id, :available_beds, :price, :has_wifi, :administrator_id, :city_id
 
 
-# Prendre un utilisateur au hasard, affiche son mail, ses logements et son numéro de téléphone :
+# Prendre un utilisateur au hasard, affiche son mail, ses logements et son numéro de téléphone
   puts "\n"
   my_user = User.all.sample
   puts "Voici la liste des logements proposés par \"#{my_user.email}\" :"
@@ -70,5 +70,19 @@
   puts "Vous pouvez le(la) contacter au : #{my_user.phone_number}"
 
     
+# Créer 50 réservations
+  50.times do |index|
+    r = Reservation.create(
+      id: index + 1,
+      start_date: Faker::Date.between(from: Date.today, to: 364.day.from_now),
+      end_date: Faker::Date.between(from: 1.day.from_now, to: 1.year.from_now),
+      accomodation: Accomodation.all[rand(0..(Accomodation.all.length - 1))],
+      guest: User.all[rand(0..(User.all.length - 1))]
+    )
+  end
 
-  
+# Afficher les réservations
+  puts "\n"
+  puts "Voici les #{Reservation.all.length} réservations existantes :"
+  puts "\n"
+  tp Reservation.all, :id, :start_date, :end_date, :accomodation_id, :guest_id
