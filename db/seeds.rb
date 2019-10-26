@@ -5,8 +5,8 @@
   Reservation.destroy_all
 
 
-# Créer 10 users
-  10.times do |index|
+# Créer 20 users
+  20.times do |index|
     u = User.create(
       id: index + 1,
       email: Faker::Internet.unique.email,
@@ -36,8 +36,8 @@
   puts "\n"
   tp City.all, :id, :name, :zip_code
 
-# Créer 100 logements
-  100.times do |index|
+# Créer 50 logements
+  50.times do |index|
     a = Accomodation.create(
     id: index + 1,
     available_beds: rand(1..8),
@@ -65,14 +65,14 @@
   puts "\n"
   my_user_properties = my_user.owned_accomodations
   my_user_properties.each do |a|
-    puts "     - #{a.available_beds} couchages à #{a.city.name} (#{a.city.zip_code}), pour #{a.price}€/nuit"
+    puts "     - #{a.available_beds} couchage(s) à #{a.city.name} (#{a.city.zip_code}), pour #{a.price}€/nuit"
   end
   puts "\n"
   puts "Vous pouvez le(la) contacter au : #{my_user.phone_number}"
 
     
-# Créer 50 réservations
-  50.times do |index|
+# Créer 10 réservations
+  10.times do |index|
     r = Reservation.new
     r.id = index + 1
     r.start_date = Faker::Date.between(from: Date.today, to: 364.day.from_now)
@@ -89,4 +89,3 @@
   tp Reservation.all, :id, :start_date, :end_date, :accomodation_id, :guest_id
 
 
-puts Reservation.all.length
