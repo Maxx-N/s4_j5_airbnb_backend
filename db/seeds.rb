@@ -4,7 +4,6 @@
   Accomodation.destroy_all
   Reservation.destroy_all
 
-
 # Créer 20 users
   20.times do |index|
     u = User.create(
@@ -39,14 +38,14 @@
 # Créer 50 logements
   50.times do |index|
     a = Accomodation.create(
-    id: index + 1,
-    available_beds: rand(1..8),
-    price: rand(30..100),
-    description: Faker::Lorem.paragraph_by_chars(number: 145),
-    has_wifi: [true, false].sample,
-    welcome_message: "Bonjour! Passez un bon séjour dans notre magnifique logement !",
-    city: City.all[rand(0..(City.all.length - 1))],
-    administrator: User.all[rand(0..(User.all.length - 1))]
+      id: index + 1,
+      available_beds: rand(1..8),
+      price: rand(30..100),
+      description: Faker::Lorem.paragraph_by_chars(number: 145),
+      has_wifi: [true, false].sample,
+      welcome_message: "Bonjour! Passez un bon séjour dans notre magnifique logement !",
+      city: City.all[rand(0..(City.all.length - 1))],
+      administrator: User.all[rand(0..(User.all.length - 1))]
     )
   
   end
@@ -79,6 +78,9 @@
     r.end_date = Faker::Date.between(from: (r.start_date + 1.day), to: 365.day.from_now)
     r.accomodation = Accomodation.all[rand(0..(Accomodation.all.length - 1))]
     r.guest = User.all[rand(0..(User.all.length - 1))]
+    while r.guest == r.accomodation.administrator
+      r.guest = User.all[rand(0..(User.all.length - 1))]
+    end
     r.save
   end
 
@@ -87,5 +89,4 @@
   puts "Voici les #{Reservation.all.length} réservations existantes :"
   puts "\n"
   tp Reservation.all, :id, :start_date, :end_date, :accomodation_id, :guest_id
-
 
