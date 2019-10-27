@@ -70,7 +70,7 @@
   puts "Vous pouvez le(la) contacter au : #{my_user.phone_number}"
 
 # Créer 10 réservations
-  100.times do |index|
+  10.times do |index|
     r = Reservation.new
     r.id = index + 1
     r.start_date = Faker::Date.between(from: Date.today, to: 364.day.from_now)
