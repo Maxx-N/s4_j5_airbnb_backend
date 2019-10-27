@@ -69,9 +69,8 @@
   puts "\n"
   puts "Vous pouvez le(la) contacter au : #{my_user.phone_number}"
 
-    
 # Créer 10 réservations
-  10.times do |index|
+  100.times do |index|
     r = Reservation.new
     r.id = index + 1
     r.start_date = Faker::Date.between(from: Date.today, to: 364.day.from_now)
@@ -81,6 +80,10 @@
     while r.guest == r.accomodation.administrator
       r.guest = User.all[rand(0..(User.all.length - 1))]
     end
+    until r.is_not_overlaping
+      r.start_date = Faker::Date.between(from: Date.today, to: 364.day.from_now)
+      r.end_date = Faker::Date.between(from: (r.start_date + 1.day), to: 365.day.from_now)
+    end
     r.save
   end
 
@@ -89,4 +92,3 @@
   puts "Voici les #{Reservation.all.length} réservations existantes :"
   puts "\n"
   tp Reservation.all, :id, :start_date, :end_date, :accomodation_id, :guest_id
-
